@@ -1,0 +1,34 @@
+digraph Activity {
+  graph [dpi=220, fontname="DejaVu Sans", nodesep=0.5, ranksep=0.42];
+  node [fontname="DejaVu Sans", fontsize=13, style="rounded,filled", shape=box, fillcolor="#eaf1f8", color="#2f5496"];
+  edge [fontname="DejaVu Sans", fontsize=11, color="#555555"];
+  start [label="Начало", shape=ellipse, fillcolor="#e2f0d9", color="#548235"];
+  n1 [label="Получить параметры заявки", shape=parallelogram, fillcolor="#e4e0ee", color="#7030a0"];
+  g [label="Защитные условия выполнены?\n(amount ≥ 0 и risk ≠ null)", shape=diamond, style=filled, fillcolor="#fff2cc", color="#bf9000"];
+  err [label="Выбросить IllegalArgumentException\n«Ошибка: ...»"];
+  n2 [label="Есть персональные данные? (R1)", shape=diamond, style=filled, fillcolor="#fff2cc", color="#bf9000"];
+  n4 [label="Проверить риск: если HIGH → DIRECTOR_REVIEW (R2),\nиначе перейти к проверке суммы", shape=diamond, style=filled, fillcolor="#e2f0d9", color="#2e7d32"];
+  n5 [label="Сумма ≥ FINANCE_LIMIT (250 000)? (R3)", shape=diamond, style=filled, fillcolor="#e2f0d9", color="#2e7d32"];
+  n6 [label="Срочная AND сумма < FINANCE_LIMIT? (R4)", shape=diamond, style=filled, fillcolor="#e2f0d9", color="#2e7d32"];
+  r1 [label="маршрут SECURITY_REVIEW"];
+  r2 [label="маршрут DIRECTOR_REVIEW"];
+  r3 [label="маршрут FINANCE_REVIEW"];
+  r4 [label="маршрут FAST_TRACK"];
+  r5 [label="маршрут STANDARD (R5)"];
+  n7 [label="Вернуть маршрут согласования"];
+  end [label="Завершение", shape=ellipse, fillcolor="#fce4d6", color="#c55a11"];
+  start -> n1 -> g;
+  g -> n2 [label="да"];
+  g -> err [label="нет"];
+  n2 -> r1 [label="да"];
+  n2 -> n4 [label="нет"];
+  n4 -> r2 [label="HIGH"];
+  n4 -> n5 [label="LOW / MEDIUM"];
+  n5 -> r3 [label="да"];
+  n5 -> n6 [label="нет"];
+  n6 -> r4 [label="да"];
+  n6 -> r5 [label="нет"];
+  r1 -> n7; r2 -> n7; r3 -> n7; r4 -> n7; r5 -> n7;
+  n7 -> end;
+  err -> end;
+}

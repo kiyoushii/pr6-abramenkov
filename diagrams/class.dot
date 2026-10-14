@@ -1,0 +1,12 @@
+digraph Classes {
+  graph [dpi=220, fontname="DejaVu Sans", rankdir=TB, nodesep=0.7, ranksep=0.9];
+  node [fontname="DejaVu Sans", fontsize=13, shape=record, style=filled, fillcolor="#f7fbff", color="#2f5496"];
+  edge [fontname="DejaVu Sans", fontsize=12];
+  SC [label="{SelfCheck|- passed : int\l- failed : int\l- ROUTER : ApprovalRouter\l|+ main(String[]) : void\l- checkBase() : void\l- checkVariantA() : void\l- checkVariantB() : void\l- runDataDriven() : void\l- runInteractive() : void\l}"];
+  AR [label="{ApprovalRouter|+ FINANCE_LIMIT : long = 250000 «вариант 1, часть А»\l|+ route(long, boolean, RiskLevel, boolean) : ApprovalRoute\l+ addRiskScore(long, boolean, RiskLevel, boolean) : int   «часть Б»\l- requireValid(long, RiskLevel) : void\l- requiresSecurityReview(boolean) : boolean\l- requiresDirectorReview(RiskLevel) : boolean\l- requiresFinanceReview(long) : boolean\l- requiresFastTrack(long, boolean) : boolean\l}"];
+  ROUTE [label="{«enumeration»\nApprovalRoute|STANDARD\lFAST_TRACK\lFINANCE_REVIEW\lDIRECTOR_REVIEW\lSECURITY_REVIEW\l}"];
+  RISK [label="{«enumeration»\nRiskLevel|LOW\lMEDIUM\lHIGH\l}"];
+  SC -> AR [label="  использует", style=dashed, arrowhead=open];
+  AR -> ROUTE [label="  возвращает", style=dashed, arrowhead=open];
+  AR -> RISK [label="  принимает", style=dashed, arrowhead=open];
+}
